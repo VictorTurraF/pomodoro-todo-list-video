@@ -1,10 +1,30 @@
 import { useState } from "react";
 import Task from "./components/Task"
+import { rebootCss } from "./styles/reboot";
+import { styled } from "@stitches/react";
+import { List } from "./layouts/List";
+import { Input } from './layouts/Input'
+import { Button } from './layouts/Button'
+import { Box } from "./layouts/Box";
+
+const AppGrid = styled(Box, {
+  maxWidth: "1000px",
+  margin: "3rem auto",
+});
+
+const Form = styled("form", {
+  display: "grid",
+  gap: '.5rem',
+  gridTemplateColumns: "1fr 11rem 160px",
+  marginBottom: "1rem"
+})
+
+rebootCss();
 
 function App() {
   const [tasks, setTasks] = useState([
-    { id: "1", name: "Inicializar o projeto", actPomodoros: 1, totalPomodoros: 3, isFinished: true },
-    { id: "2", name: "Implementar cabeçalho", actPomodoros: 2, totalPomodoros: 4, isFinished: false },
+    { id: self.crypto.randomUUID(), name: "Inicializar o projeto", actPomodoros: 1, totalPomodoros: 3, isFinished: true },
+    { id: self.crypto.randomUUID(), name: "Implementar cabeçalho", actPomodoros: 2, totalPomodoros: 4, isFinished: false },
   ])
 
   function handleSubmit(event) {
@@ -16,6 +36,7 @@ function App() {
     
     // Disparar atualizações de estado
     const newTask = {
+      id: self.crypto.randomUUID(),
       name: String(taskNameInput.value),
       actPomodoros: 0,
       totalPomodoros: Number(taskPomodorosInput.value),
@@ -25,25 +46,31 @@ function App() {
     setTasks(prev => [...prev, newTask]);
   }
 
+  function handleExcludeClick({ taskId }) {
+    setTasks(prev => prev.filter(task => task.id !== taskId))
+  }
+
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input type="text" placeholder="Nome da tarefa"/>
-        <input type="number" placeholder="Pomodoros estimados"/>
-        <button type="submit">Adicionar</button>
-      </form>
-      <ul>
+    <AppGrid>
+      <Form onSubmit={handleSubmit}>
+        <Input type="text" placeholder="Nome da tarefa"/>
+        <Input type="number" placeholder="Pomodoros estimados"/>
+        <Button type="submit">Adicionar</Button>
+      </Form>
+      <List>
         {tasks.map(task => (
           <Task 
+            id={task.id}
             key={task.id}
             name={task.name} 
             actPomodoros={task.actPomodoros} 
             totalPomodoros={task.totalPomodoros} 
             isFinished={task.isFinished}
+            onExcludeClick={handleExcludeClick}
           />
         ))}
-      </ul>
-    </div>
+      </List>
+    </AppGrid>
   )
 }
 
