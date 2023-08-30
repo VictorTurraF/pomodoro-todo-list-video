@@ -1,18 +1,49 @@
+import { useState } from "react"
 import Task from "./components/Task"
 
 function App() {
+  // React Hook useState
+  const [taskName, setTaskName] = useState("")
+  const [taskPomodoros, setTaskPomodoros] = useState(0)
+
+  const tasks = [
+    { id: "1", name: "Inicializar o projeto", actPomodoros: 1, totalPomodoros: 3, isFinished: true },
+    { id: "2", name: "Implementar cabeçalho", actPomodoros: 2, totalPomodoros: 4, isFinished: false },
+  ]
+
+  function handleSubmit(event) {
+    // Desabilitar comportamento padrão
+    event.preventDefault();
+  
+    // Desestruturar elementos input
+    const { target: [taskNameInput, taskPomodorosInput] } = event
+  
+    // Disparar atualizações de estado
+    setTaskName(taskNameInput.value);
+    setTaskPomodoros(taskPomodorosInput.value);
+  }
+
 
   return (
     <div>
-      <form>
+      Task name: {taskName} <br/>
+      Task pomodoros: {taskPomodoros}
+
+      <form onSubmit={handleSubmit}>
         <input type="text" placeholder="Nome da tarefa"/>
         <input type="number" placeholder="Pomodoros estimados"/>
         <button type="submit">Adicionar</button>
       </form>
       <ul>
-        <Task name="Inicializar o projeto" actPomodoros={1} totalPomodoros={3} isFinished />
-        <Task name="Implementar cabeçalho" actPomodoros={2} totalPomodoros={4} />
-        <Task name="Implementar rodapé" actPomodoros={3} totalPomodoros={8} isFinished />
+        {tasks.map(task => (
+          <Task 
+            key={task.id}
+            name={task.name} 
+            actPomodoros={task.actPomodoros} 
+            totalPomodoros={tasks.totalPomodoros} 
+            isFinished={task.isFinished}
+          />
+        ))}
       </ul>
     </div>
   )
