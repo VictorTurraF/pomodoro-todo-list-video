@@ -48,15 +48,28 @@ function Task(props) {
     name, 
     actPomodoros, 
     totalPomodoros,
-    onExcludeClick = () => {}
+    onExcludeClick = () => {},
+
+    isActive = false,
+    onActiveClick = () => {},
   } = props
 
   function handleExcludeClick(event) {
     onExcludeClick({ event, taskId: id })
   }
 
+  function handleActiveClick(event) {
+    const checkboxEl = event.currentTarget.querySelector('input[type=checkbox]')
+  
+    if (checkboxEl.contains(event.target) || checkboxEl === event.target) {
+      return;
+    }
+  
+    onActiveClick({ event, taskId: id })
+  }
+
   return (
-    <Row>
+    <Row onClick={handleActiveClick} isActive={isActive}>
       <span><input type="checkbox" checked={isFinished} /></span>
       <DescriptionCol>{name}</DescriptionCol>
       <span>{actPomodoros}/{totalPomodoros}</span>

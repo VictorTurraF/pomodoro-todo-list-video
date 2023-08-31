@@ -22,6 +22,7 @@ const Form = styled("form", {
 rebootCss();
 
 function App() {
+  const [activeTaskId, setActiveTaskId] = useState("");
   const [tasks, setTasks] = useState([
     { id: self.crypto.randomUUID(), name: "Inicializar o projeto", actPomodoros: 1, totalPomodoros: 3, isFinished: true },
     { id: self.crypto.randomUUID(), name: "Implementar cabeçalho", actPomodoros: 2, totalPomodoros: 4, isFinished: false },
@@ -50,6 +51,10 @@ function App() {
     setTasks(prev => prev.filter(task => task.id !== taskId))
   }
 
+  function handleActiveClick({ taskId }) {
+    setActiveTaskId(taskId)
+  }
+  
   return (
     <AppGrid>
       <Form onSubmit={handleSubmit}>
@@ -67,6 +72,9 @@ function App() {
             totalPomodoros={task.totalPomodoros} 
             isFinished={task.isFinished}
             onExcludeClick={handleExcludeClick}
+
+            isActive={task.id === activeTaskId}
+            onActiveClick={handleActiveClick}
           />
         ))}
       </List>
