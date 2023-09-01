@@ -1,6 +1,9 @@
-# Doc: React | Conceitos + Prática + Case
+# Docs: React | Conceitos + Prática + Case
 
 Projeto de exemplo para fixar os conceitos básicos do React JS
+
+## Documentação de conceitos
+[Documentação com conceitos fundamentais para desenvolvimento de SPA (Single Page Aplications)](https://github.com/VictorTurraF/minicurso-react-js)
 
 ## Repositório
 É esse. [pomodoro-todo-list-video](https://github.com/VictorTurraF/pomodoro-todo-list-video)
