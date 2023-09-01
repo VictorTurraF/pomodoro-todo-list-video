@@ -52,6 +52,8 @@ function Task(props) {
 
     isActive = false,
     onActiveClick = () => {},
+
+    onFinishedChange = () => {}
   } = props
 
   function handleExcludeClick(event) {
@@ -68,10 +70,14 @@ function Task(props) {
     onActiveClick({ event, taskId: id })
   }
 
+  function handleFinishedChange(event) {
+    onFinishedChange({ event, taskId: id })
+  }
+
   return (
     <Row onClick={handleActiveClick} isActive={isActive}>
-      <span><input type="checkbox" checked={isFinished} /></span>
-      <DescriptionCol>{name}</DescriptionCol>
+      <span><input type="checkbox" checked={isFinished} onChange={handleFinishedChange} /></span>
+      <DescriptionCol isFinished={isFinished}>{name}</DescriptionCol>
       <span>{actPomodoros}/{totalPomodoros}</span>
       <Button onClick={handleExcludeClick}>Excluir</Button>
     </Row>

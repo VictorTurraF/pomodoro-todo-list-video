@@ -54,6 +54,14 @@ function App() {
   function handleActiveClick({ taskId }) {
     setActiveTaskId(taskId)
   }
+
+  function handleFinishedChange({ taskId }) {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === taskId ? { ...task, isFinished: !task.isFinished } : task
+      )
+    );
+  }
   
   return (
     <AppGrid>
@@ -67,14 +75,16 @@ function App() {
           <Task 
             id={task.id}
             key={task.id}
-            name={task.name} 
-            actPomodoros={task.actPomodoros} 
-            totalPomodoros={task.totalPomodoros} 
+            name={task.name}
+            actPomodoros={task.actPomodoros}
+            totalPomodoros={task.totalPomodoros}
             isFinished={task.isFinished}
             onExcludeClick={handleExcludeClick}
 
             isActive={task.id === activeTaskId}
             onActiveClick={handleActiveClick}
+
+            onFinishedChange={handleFinishedChange}
           />
         ))}
       </List>
